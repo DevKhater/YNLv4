@@ -1,0 +1,168 @@
+{% extends "@YallaWebsiteFrontendBundle/views/front_base.html.twig" %}
+{% set tempArray = {} %}
+{% block stylesheets %}
+    {{parent()}}
+    <link rel="stylesheet" href="{{ asset('bundles/yallawebsitefrontend/css/blueimp-gallery.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/yallawebsitefrontend/css/bootstrap-image-gallery.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/yallawebsitefrontend/css/rating.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/yallawebsitefrontend/css/rateit.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.1.1/jquery.rateyo.min.css">#}
+
+
+    {% stylesheets '@fontawesome_css'%}
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}    
+
+{% block body %}
+    <div class="wrapper">
+        <div class="theEntityDiv">
+            <div class="innerTitle">
+                <h1>{{gallery.name}} {{gallery.date|date("d/m/Y")}}</h1>
+            </div>
+            <div id="innerEntityContent">
+                {{ gallery.description }}
+            </div>
+            <div id="galleryViewPhotogtapher">
+                {% if gallery.photographers is not empty %}
+                    <p><span>Photo Credit</span>: 
+                        {% for ph in gallery.photographers %}
+                            <a href='ph.website'>{{ph.name}}</a> {% if not loop.last %} - {% endif %} 
+                        {% endfor %}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="im">
+                <div class="grid-sizer"></div>
+                <div id='links'>
+
+                    {% for galleryHasMedia in gallery.GalleryHasMedias %}
+                        {% set id = random() %}
+                        {% set tempArray = tempArray|merge({('_'~id):(voteValue(galleryHasMedia.id))}) %}            
+                        <div class="im-item">
+                            <a data-gallery='' title="" href="{% path galleryHasMedia.media, 'large' %}"><img class="thumbnail img-responsive" src="{% path galleryHasMedia.media, 'small' %}"></a>
+
+                            <div style="/*display: none*/">
+                                <div class="source_vote_image">
+                                    {%  include 'KunstmaanVotingBundle:UpDown:vote.html.twig' with {'reference' : galleryHasMedia.id } %}
+                                    <input id="_{{id}}" type="range" value="{{voteValue(galleryHasMedia.id)}}" step="0.25" id="backing4">
+                                    
+                                    <div class="rateit" data-rateit-backingfld="#_{{id}}" data-rateit-resetable="false"  data-rateit-ispreset="true"
+                                    data-rateit-min="0" data-rateit-max="5"></div>
+                                    
+                                    {#{{ voteValue(galleryHasMedia.id)|rating(5) }}#}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+                <div id="blueimp-gallery" class="blueimp-gallery">
+            <!-- The container for the modal slides -->
+            <div class="slides"></div>
+            <!-- Controls for the borderless lightbox -->
+            <h3 class="title"></h3>
+            <a class="prev">‹</a>
+            <a class="next">›</a>
+            <a class="close">×</a>
+            <a class="play-pause"></a>
+            <ol class="indicator"></ol>
+            <!-- The modal dialog, which will be used to wrap the lightbox content -->
+            <div class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body next">
+
+                        </div>
+                        <div class="modal-footer">
+                            <div class='col-lg-12' style="text-align: center;margin-bottom: 2%;">
+                                {% include '@YallaWebsiteFrontendBundle/views/Template/socialMediaShare.html.twig' %}
+                            </div>    
+                            <div class="destination_vote_image">
+
+                            </div>    
+                            <div id='gallery_modal_left'>
+                                <span class="pull-left prev" id='Gallery_Left_Arrow'>&#8592;</span>
+
+                            </div>
+                            <div class='col-lg-12 Adv_Display'>
+                                <div id='chocolat-image-data-adv'>{{ render_esi(url('ads_manager_show', { 'id': 'snapshot_popup' })) }}</div>
+                            </div>
+                            <div id='gallery_modal_right'>
+                                <span class="pull-left next" id='Gallery_Right_Arrow'>&#8594;</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block massonary %}
+    {% javascripts '@massonary' '@imagesloaded'%}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/yallawebsitefrontend/js/socialite.min.js') }}"></script>
+    <script src="{{ asset('bundles/yallawebsitefrontend/js/rating.js') }}"></script>
+    <script src="{{ asset('bundles/yallawebsitefrontend/js/jquery.blueimp-gallery.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            var $grid = $('.im').masonry({
+                itemSelector: '.im-item',
+                percentPosition: true,
+                columnWidth: '.grid-sizer'
+            });
+            // layout Isotope after each image loads
+            $grid.imagesLoaded().progress(function () {
+                $grid.masonry();
+            });
+            $(".rateit").bind('rated', function () {
+                alert('rating: ' + $(this).rateit('value'));
+            });
+            $('#links .im-item').onclick = function (event) {
+                console.log(this);
+                console.log(event);
+                event = event || window.event;
+                var target = event.target || event.srcElement,
+                        link = target.src ? target.parentNode : target,
+                        options = {index: link, event: event},
+                links = this.getElementsByTagName('a');
+                blueimp.Gallery(links, options);
+                var vote = this.getElementsByClassName('source_vote_image');
+                $(".destination_vote_image").empty().append(vote);
+            };
+
+{#            $('#links .im-item').click(function () {
+                var vote = this.getElementsByClassName('source_vote_image');
+                $(".destination_vote_image").empty().append(vote);
+            });#}
+        });
+        $(function () {
+        {% for id,val in tempArray %}
+                var $rateYo = $("#{{id}}").rateYo({"rating": {{val}}  });
+                $rateYo.rateYo("option", "onChange", function () {
+                    var ratedFill = $rateYo.rateYo("option", "ratedFill");
+                    console.log("The color of rating is " + ratedFill);
+                });
+                $rateYo.rateYo("option", "multiColor", true);
+                    {% endfor %}
+            });
+    </script>
+    
+    {#<script src="{{ asset('bundles/yallawebsitefrontend/js/bootstrap-image-gallery.js') }}"></script>#}
+    {#<script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>#}
+    <script src="{{ asset('bundles/yallawebsitefrontend/js/jquery.rateit.min.js') }}"></script>
+
+{% endblock %}

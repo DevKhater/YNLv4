@@ -1,0 +1,56 @@
+home_header_first:
+    cache_public: true
+    cache_shared_max_age: 86400
+    cache_max_age: 28800
+    random: true
+    format: horiz
+    media: 38
+    data: [{ type: image, link: /uploads/media/adv/0001/01/thumb_38_adv_horiz.jpeg, target: 'http://www.ggg.com', weight: 5 }]
+home_header_second:
+    cache_public: true
+    cache_shared_max_age: 86400
+    cache_max_age: 28800
+    random: true
+    format: horiz
+    media: 40
+    data: [{ type: image, link: /uploads/media/adv/0001/01/thumb_40_adv_horiz.jpeg, target: 'http://www.ggg.com', weight: 5 }]
+home_body_first:
+    cache_public: true
+    cache_shared_max_age: 86400
+    cache_max_age: 28800
+    random: true
+    format: verti
+    media: 113
+    data: [{ type: image, link: /uploads/media/adv/0001/01/thumb_113_adv_verti.png, target: 'http://www.hotmail.com/', weight: 5 }]
+home_body_second:
+    cache_public: true
+    cache_shared_max_age: 86400
+    cache_max_age: 28800
+    random: true
+    format: verti
+    media: 108
+    data: [{ type: image, link: /uploads/media/adv/0001/01/thumb_108_adv_verti.jpeg, target: 'http://www.UbUnTu.com/', weight: 5 }]
+home_footer_first:
+    cache_public: true
+    cache_shared_max_age: 86400
+    cache_max_age: 28800
+    random: true
+    format: horiz
+    media: 43
+    data: [{ type: image, link: /uploads/media/adv/0001/01/thumb_43_adv_horiz.jpeg, target: 'http://www.ggg.com', weight: 5 }]
+home_footer_second:
+    cache_public: true
+    cache_shared_max_age: 86400
+    cache_max_age: 28800
+    random: true
+    format: horiz
+    media: 44
+    data: [{ type: image, link: /uploads/media/adv/0001/01/thumb_44_adv_horiz.jpeg, target: 'http://www.ggg.com', weight: 5 }]
+snapshot_popup:
+    cache_public: true
+    cache_shared_max_age: 86400
+    cache_max_age: 28800
+    random: true
+    format: snapadv
+    media: 41
+    data: [{ type: image, link: /uploads/media/adv/0001/01/thumb_41_adv_snapadv.jpeg, target: 'http://www.ggg.com', weight: 5 }]

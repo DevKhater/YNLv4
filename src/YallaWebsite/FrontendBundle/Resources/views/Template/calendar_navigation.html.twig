@@ -1,0 +1,95 @@
+<div class="navigation col-lg-12">
+    <div class="col-lg-12">
+        <table class='calendar_nav'>
+            <tr>
+                <td><a id='mounth_before' class="prev" href="#" 
+                       onclick="
+                               $('#ajaxDiv').html('');
+                               $.ajax({type: 'POST',
+                                   url: Routing.generate('yfe_get_month', {month: '{{__prev_year__}}'}),
+                                   dataType: 'json',
+                                   success: function (data) {
+                                       console.log('Success');
+                                       $('#calendar').html(data.nav);
+                                       $('#calendar').append(data.cal);
+                                   }});
+                               return false;">
+                        {#<p style="background-image: url('{{ asset('bundles/yallawebsitefrontend/images/calendar_left.png')}}')"></p>#}
+                        <img style="float:left" src="{{ asset('bundles/yallawebsitefrontend/images/calendar_left.png')}}" width="40" />
+                    </a>
+                </td>
+
+                <td></td>
+                <td>
+                    <div class="title">
+                        <span style="vertical-align: middle; text-align: center" id='navigation_year'>{{__cal_caption_year__}}</span>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <a id='mounth_after' class="next" href="#" 
+                       onclick="
+                               $('#ajaxDiv').html('');
+                               $.ajax({type: 'POST',
+                                   url: Routing.generate('yfe_get_month', {month: '{{__next_year__}}'}),
+                                   dataType: 'json',
+                                   success: function (data) {
+                                       console.log('Success');
+                                       $('#calendar').html(data.nav);
+                                       $('#calendar').append(data.cal);
+                                   }});
+                               return false;">
+                        {#<p style="background-image: url('{{ asset('bundles/yallawebsitefrontend/images/calendar_right.png')}}')"></p>#}
+                        <img st-yle="float: right" src="{{ asset('bundles/yallawebsitefrontend/images/calendar_right.png')}}" width="40" />
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-lg-12">
+        <table class='calendar_nav'>
+            <tr>
+                <td>
+                    <a id='mounth_before' class="prev" href="#" 
+                       onclick="
+                               $('#ajaxDiv').html('');
+                               $.ajax({type: 'POST',
+                                   url: Routing.generate('yfe_get_month', {month: '{{__prev_month__}}'}),
+                                   dataType: 'json',
+                                   success: function (data) {
+                                       console.log('Success');
+                                       $('#calendar').html(data.nav);
+                                       $('#calendar').append(data.cal);
+                                   }});
+                               return false;">
+                        {#<p style="background-image: url('{{ asset('bundles/yallawebsitefrontend/images/calendar_left.png')}}')"></p>#}
+                        <img src="{{ asset('bundles/yallawebsitefrontend/images/calendar_left.png')}}" width="40" />
+                    </a>
+                </td>
+                <td></td>
+                <td>
+                    <div class="title">
+                        <span id='navigation_month'>{{__cal_caption_month__}}</span>
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <a id='mounth_after' class="next" href="#" 
+                       onclick="
+                               $('#ajaxDiv').html('');
+                               $.ajax({type: 'POST',
+                                   url: Routing.generate('yfe_get_month', {month: '{{__next_month__}}'}),
+                                   dataType: 'json',
+                                   success: function (data) {
+                                       console.log('Success');
+                                       $('#calendar').html(data.nav);
+                                       $('#calendar').append(data.cal);
+                                   }});
+                               return false;">
+                        <img src="{{ asset('bundles/yallawebsitefrontend/images/calendar_right.png')}}" width="40" />
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
